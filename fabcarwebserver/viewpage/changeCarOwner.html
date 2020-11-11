@@ -6,33 +6,33 @@
   </head>
 
   <body>
-    <div class="c_container">
-      <h1>queryCar Page</h1>      
+    <div class="c_container">      
+      <h1>changeOwner Page</h1>      
     </div>
-
+    
     <div class="c_container">        
-        Car.No <input type="text" id=inp_carno> <br>
-        <button id="btn_queryCar">Query a Car</button>
+        Car.Number <input type="text" id=inp_carno> <br>
+        Car.Owner <input type="text" id=inp_carowner> <br>
+        <button id="btn_changeOwner">Change Owner</button>
         
         <div id="resultwindow">
             <h2>Fabcar Query Result</h2>
             <div id="queryresult">
-                <p>whatwhat</p>
             </div>
         </div>
-
     </div>
   </body>
 </html>
 
 <script>
     $("#resultwindow").hide()
-    $("#btn_queryCar").click(function(){
+    $("#btn_changeOwner").click(function(){
         const _carno = $("#inp_carno").val()
-        $.post("/api/queryCar",{carno: _carno} ,function(data, status){            
+        const _carowner = $("#inp_carowner").val()
+        $.post("/api/changeCarOwner",{carno: _carno, carowner: _carowner } ,function(data, status){            
             $("#resultwindow").show()
-            $("#queryresult").empty()            
-            $("#queryresult").append(JSON.stringify(data))
+            $("#queryresult").empty()
+            $("#queryresult").append(status)
             $("#queryresult").append("<br>")
         })
     })

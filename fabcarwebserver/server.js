@@ -38,18 +38,44 @@ app.get('/page/queryAllCars', function(req, res){
 app.get('/page/queryCar', function(req, res){    
     res.sendFile(__dirname + '/viewpage/queryCar.html');
 })
+app.get('/page/createCar', function(req, res){    
+    res.sendFile(__dirname + '/viewpage/createCar.html');
+})
+app.get('/page/changeCarOwner', function(req, res){    
+    res.sendFile(__dirname + '/viewpage/changeCarOwner.html');
+})
 
 // api routing
 app.get('/api/queryAllCars', async function(req, res){
-
-    const result = await callChainCode('queryAllCars')    
-        
+    const result = await callChainCode('queryAllCars')        
     res.json(JSON.parse(result))    
 })
+
 app.post('/api/queryCar', async function(req, res){
     const carno=req.body.carno
     const result = await callChainCode('queryCar',carno)    
     res.json(JSON.parse(result))
+})
+
+app.post('/api/createCar', async function(req, res){
+    const carno = req.body.carno
+    const carmake = req.body.carmake
+    const carmodel = req.body.carmodel
+    const carcol = req.body.carcol
+    const carowner = req.body.carowner
+
+    var args = [carno,carmake,carmodel,carcol,carowner]    
+    await callChainCode('createCar',args)    
+    res.status(200).json({result: "success"})
+})
+
+app.post('/api/changeCarOwner', async function(req, res){
+    const carno = req.body.carno
+    const carowner = req.body.carowner
+
+    var args = [carno,carowner]    
+    await callChainCode('changeCarOwner',args)    
+    res.status(200).json({result: "success"})
 })
 
 async function callChainCode(fnName, args){
@@ -84,6 +110,10 @@ async function callChainCode(fnName, args){
         result = await contract.evaluateTransaction(fnName);    
     else if(fnName == 'queryCar')
         result = await contract.evaluateTransaction(fnName,args);
+    else if(fnName == 'createCar')
+        result = await contract.submitTransaction(fnName,args[0],args[1],args[2],args[3],args[4])
+    else if(fnName == 'changeCarOwner')
+        result = await contract.submitTransaction(fnName,args[0],args[1])
     else
         result = 'This function(' + fnName +') does not exist !'        
         
