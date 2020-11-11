@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // main page routing
 app.get('/', (req, res)=>{
-    res.sendFile(__dirname + '/index.html');
+    res.sendFile(__dirname + '/viewpage/index.html');
 })
 
 // server start
