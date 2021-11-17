@@ -3,5 +3,5 @@ simplewebserver/package-lock.json
 fabcarwebserver/node_modules
 fabcarwebserver/package-lock.json
 fabcarwebserver/wallet
-chaincode/vendor
-chaincode/go.sum
+chaincode/fabcar/vendor
+chaincode/fabcar/go.sum
